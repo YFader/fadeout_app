@@ -1,0 +1,66 @@
+
+/* ===== Типографика, сетка, контейнер ===== */
+:root{
+  --maxw: 920px;
+}
+.container{
+  max-width: var(--maxw);
+  margin: 0 auto;
+}
+h1,h2,h3{ margin:0 0 8px }
+h1{ font-size: clamp(20px, 2.4vw, 28px); font-weight: 900; letter-spacing:.2px }
+h2{ font-size: clamp(16px, 1.9vw, 22px); font-weight: 800; color: #dfffe2 }
+h3.section-title{ font-size: clamp(16px, 1.7vw, 20px) }
+
+/* ===== Кнопки ===== */
+.btn{ position:relative; user-select:none; -webkit-tap-highlight-color: transparent; }
+.btn-lg{ height:52px; font-size:16px; border-radius:14px; padding:0 18px }
+.btn-sm{ height:36px; font-size:13px; border-radius:10px; padding:0 12px }
+.btn:focus-visible{ outline:2px solid rgba(102,197,102,.5); outline-offset:2px }
+.btn[disabled]{ opacity:.6; pointer-events:none }
+
+.btn-primary{
+  box-shadow: 0 0 0 1px rgba(102,197,102,.25), 0 0 24px rgba(102,197,102,.45);
+  transition: box-shadow .25s ease, transform .08s ease;
+}
+.btn-primary:hover{ box-shadow: 0 0 0 1px rgba(122,214,122,.35), 0 0 36px rgba(102,197,102,.65) }
+.btn-primary:active{ transform: translateY(1px) }
+
+/* ===== Чипы и икон-кнопки ===== */
+.icon-btn,.chip{ min-height:36px; }
+.icon-btn:focus-visible,.chip:focus-visible{ outline:2px solid rgba(102,197,102,.45); outline-offset:2px }
+
+/* ===== Таймлайн слотов ===== */
+.time-slot,.slot{
+  transition: border-color .2s ease, box-shadow .2s ease, transform .08s ease, background .2s ease;
+}
+.time-slot:hover,.slot:hover{ border-color: rgba(102,197,102,.45) }
+.time-slot.selected,.slot.selected{
+  border-color: var(--accent);
+  background: linear-gradient(180deg, #0f1112 0%, #0d0e10 100%);
+  box-shadow:
+    0 0 0 1px rgba(102,197,102,.35),
+    0 0 18px rgba(102,197,102,.40),
+    inset 0 0 0 1px rgba(255,255,255,.03);
+}
+.time-slot.busy,.slot.busy{
+  filter: grayscale(.25) brightness(.8);
+  opacity:.45;
+}
+
+/* ===== Баннер ===== */
+@keyframes pulseAccent {
+  0% { box-shadow: 0 0 0 0 rgba(102,197,102,.45) }
+  70%{ box-shadow: 0 0 0 10px rgba(102,197,102,0) }
+  100%{ box-shadow: 0 0 0 0 rgba(102,197,102,0) }
+}
+.promo-banner.urgent{ animation: pulseAccent 1.8s ease-in-out infinite }
+
+/* ===== Safe-area ===== */
+.app-header{ padding-top: max(10px, env(safe-area-inset-top)) }
+body::after{ content:""; display:block; height: env(safe-area-inset-bottom); }
+
+/* ===== Mobile ===== */
+@media (max-width: 420px){
+  .brand-title{ display:none }
+}
