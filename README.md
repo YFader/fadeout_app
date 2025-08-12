@@ -56,5 +56,5 @@ npm i -g vercel
 vercel dev
 ```
 
-## Лицензия
+## Лицензиb
 MIT
