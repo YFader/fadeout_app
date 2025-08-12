@@ -1,0 +1,2 @@
+import { migrate, client } from '../shared/db.js'; import { requireAuth } from '../shared/auth.js';
+export default async function handler(req,res){ try{ await migrate(); const userId=requireAuth(req); const db=await client(); const { rows }=await db.query(`SELECT b.*, r.name, r.code FROM bookings b JOIN rooms r ON r.id=b.room_id WHERE b.user_id=? ORDER BY start_utc DESC`, [userId]); res.status(200).json(rows); } catch(e){ res.status(500).json({ error:e.message }); } }
