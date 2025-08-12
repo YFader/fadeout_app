@@ -1,2 +1,0 @@
-import { migrate, client } from '../shared/db.js'; import { requireAuth } from '../shared/auth.js';
-export default async function handler(req,res){ try{ if(req.method!=='DELETE') return res.status(405).end(); await migrate(); const userId=requireAuth(req); const id=req.query.id; const db=await client(); const r=await db.execute('DELETE FROM bookings WHERE id=? AND user_id=?',[id,userId]); if(!r.rowsAffected) return res.status(404).json({ error:'Не найдено или нет прав' }); res.status(200).json({ success:true }); } catch(e){ res.status(500).json({ error:e.message }); } }
