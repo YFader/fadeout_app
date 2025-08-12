@@ -1,12 +1,11 @@
 {
   "version": 2,
   "functions": {
-    "api/**/*.js": { "runtime": "nodejs18.x", "maxDuration": 20 }
+    "api/**/*.js": { "runtime": "nodejs20.x", "maxDuration": 20 }
   },
   "rewrites": [
     { "source": "/health", "destination": "/api/health.js" },
     { "source": "/api/:match*", "destination": "/api/:match*.js" },
-
     { "source": "/", "destination": "/public/index.html" },
     { "source": "/:path*", "destination": "/public/:path*" }
   ],
