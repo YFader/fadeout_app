@@ -1,0 +1,2 @@
+import { migrate, client } from '../shared/db.js'; import { requireAuth } from '../shared/auth.js';
+export default async function handler(req,res){ try{ await migrate(); const userId=requireAuth(req); const id=req.query.id; const db=await client(); const row=(await db.query('SELECT payment_status FROM bookings WHERE id=? AND user_id=?',[id,userId])).rows[0]; if(!row) return res.status(404).json({ error:'Бронь не найдена' }); res.status(200).json(row); } catch(e){ res.status(500).json({ error:e.message }); } }

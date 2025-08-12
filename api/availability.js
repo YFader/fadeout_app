@@ -1,0 +1,2 @@
+import { migrate, client } from '../shared/db.js'; import { requireAuth } from '../shared/auth.js';
+export default async function handler(req,res){ try{ await migrate(); requireAuth(req); const db=await client(); const { roomId, from, to } = req.query; const { rows } = await db.query(`SELECT start_utc, end_utc FROM bookings WHERE room_id = ? AND NOT (end_utc <= ? OR start_utc >= ?)`, [roomId, to, from]); res.status(200).json({ busy: rows }); } catch(e){ res.status(500).json({ error:e.message }); } }

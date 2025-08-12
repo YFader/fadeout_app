@@ -1,0 +1,2 @@
+import { migrate, client } from '../shared/db.js'; import { requireAuth } from '../shared/auth.js';
+export default async function handler(req,res){ try{ await migrate(); const userId=requireAuth(req); const id=req.query.id; const db=await client(); const row=(await db.query(`SELECT v.name, v.image_url, v.rarity, uv.received_at FROM user_vinyls uv JOIN vinyl_covers v ON v.id=uv.cover_id WHERE uv.booking_id=? AND uv.user_id=?`,[id,userId])).rows[0]; res.status(200).json(row || null); } catch(e){ res.status(500).json({ error:e.message }); } }
