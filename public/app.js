@@ -1,3 +1,5 @@
+import { FALLBACK_CSS } from './style-fallback.js';
+
 const TG = window.Telegram?.WebApp;
 try {
   TG?.expand();
@@ -5,6 +7,29 @@ try {
 } catch (err) {
   console.warn('Telegram WebApp init failed', err);
 }
+
+function ensureGlobalStyles() {
+  if (document.getElementById('app-fallback-style')) {
+    return;
+  }
+
+  const rootStyles = getComputedStyle(document.documentElement);
+  const hasThemeVariables = rootStyles.getPropertyValue('--bg').trim();
+
+  if (hasThemeVariables) {
+    return;
+  }
+
+  const inlineStyle = document.createElement('style');
+  inlineStyle.id = 'app-fallback-style';
+  inlineStyle.textContent = FALLBACK_CSS;
+  document.head.appendChild(inlineStyle);
+}
+
+window.addEventListener('load', () => {
+  ensureGlobalStyles();
+  window.setTimeout(ensureGlobalStyles, 400);
+});
 
 const params = new URLSearchParams(window.location.search);
 const storedInit = sessionStorage.getItem('tgInitDataRaw');
