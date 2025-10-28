@@ -4,7 +4,8 @@
     { "source": "/health", "destination": "/api/router.js" },
     { "source": "/api/:match*", "destination": "/api/router.js" },
 
-    { "source": "/", "destination": "/index.html" }
+    { "handle": "filesystem" },
+    { "source": "/(.*)", "destination": "/index.html" }
   ],
   "headers": [
     {
