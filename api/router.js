@@ -14,6 +14,13 @@ import * as paymentStatus from '../api_handlers/payment-status.js';
 import * as adminPromos from '../api_handlers/admin-promos.js';
 import * as myVinyls from '../api_handlers/my-vinyls.js';
 import * as yookassaWebhook from '../api_handlers/yookassa-webhook.js';
+// Новые хендлеры, добавленные как отдельные функции в каталоге api/
+import * as checkPromo from './check-promo.js';
+import * as invite from './invite.js';
+import * as acceptInvite from './accept-invite.js';
+import * as myBooking from './my-booking.js';
+import * as vinylByBooking from './vinyl-by-booking.js';
+import * as dailyReward from './daily-reward.js';
 
 const R = (m, re, h) => ({ m, re, h });
 const routes = [
@@ -30,6 +37,13 @@ const routes = [
   R('POST',   /^\/admin-promos$/,          adminPromos.default),
   R('DELETE', /^\/admin-promos$/,          adminPromos.default),
   R('GET',    /^\/my-vinyls$/,             myVinyls.default),
+  R('GET',    /^\/check-promo$/,           checkPromo.default),
+  R('POST',   /^\/invite$/,                invite.default),
+  R('POST',   /^\/accept-invite$/,         acceptInvite.default),
+  R('GET',    /^\/my-booking$/,            myBooking.default),
+  R('GET',    /^\/vinyl-by-booking$/,      vinylByBooking.default),
+  R('GET',    /^\/daily-reward$/,          dailyReward.default),
+  R('POST',   /^\/daily-reward$/,          dailyReward.default),
   // Юкасса вебхук тоже внутри роутера (одна функция на всё)
   R('POST',   /^\/yookassa-webhook$/,      yookassaWebhook.default),
 ];
