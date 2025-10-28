@@ -705,6 +705,30 @@ aside.my h2 {
 }
 `;
 
+const mainStylesheet = document.querySelector('link[rel="stylesheet"][href*="style.css"]');
+let mainStylesApplied = false;
+
+function primaryStylesAreReady() {
+  if (mainStylesApplied) {
+    return true;
+  }
+
+  if (!mainStylesheet) {
+    return false;
+  }
+
+  try {
+    const sheet = mainStylesheet.sheet;
+    if (sheet && sheet.cssRules && sheet.cssRules.length > 0) {
+      mainStylesApplied = true;
+    }
+  } catch (err) {
+    // Accessing cssRules before the stylesheet is ready can throw; ignore and retry later.
+  }
+
+  return mainStylesApplied;
+}
+
 const TG = window.Telegram?.WebApp;
 try {
   TG?.expand();
@@ -717,8 +741,9 @@ function ensureGlobalStyles() {
   const fallbackStyle = document.getElementById('app-fallback-style');
   const rootStyles = getComputedStyle(document.documentElement);
   const hasThemeVariables = rootStyles.getPropertyValue('--bg').trim();
+  const mainStylesReady = primaryStylesAreReady();
 
-  if (hasThemeVariables) {
+  if (hasThemeVariables && mainStylesReady) {
     fallbackStyle?.remove();
     return;
   }
@@ -735,8 +760,15 @@ function ensureGlobalStyles() {
 
 ensureGlobalStyles();
 
-const mainStylesheet = document.querySelector('link[rel="stylesheet"][href*="style.css"]');
-mainStylesheet?.addEventListener('load', ensureGlobalStyles);
+mainStylesheet?.addEventListener('load', () => {
+  mainStylesApplied = true;
+  ensureGlobalStyles();
+});
+
+mainStylesheet?.addEventListener('error', () => {
+  mainStylesApplied = false;
+  ensureGlobalStyles();
+});
 
 if ('fonts' in document) {
   document.fonts.ready.then(ensureGlobalStyles).catch(() => {});
