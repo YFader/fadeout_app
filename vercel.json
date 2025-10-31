@@ -2,10 +2,7 @@
   "version": 2,
   "rewrites": [
     { "source": "/health", "destination": "/api/router.js" },
-    { "source": "/api/:match*", "destination": "/api/router.js" },
-
-    { "source": "/", "destination": "/public/index.html" },
-    { "source": "/:path*", "destination": "/public/:path*" }
+    { "source": "/api/:match*", "destination": "/api/router.js" }
   ],
   "headers": [
     {
